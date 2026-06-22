@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eFootball Admin Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+
+</head>
+
+<body>
+
+    <div class="bg-animation"></div>
+
+    <!-- SECTION 1 -->
+    <section id="section1" class="screen active">
+        <div class="container">
+            <h1 class="title"><img src="titulo.png" alt=""></h1>
+
+            <div id="cardsContainer" class="cards-grid"></div>
+
+            <button id="goSection2" class="btn">NEXT</button>
+        </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section id="section2" class="screen">
+        <div class="container form-container">
+            <h1 class="title"><img src="titulo.png" alt=""></h1>
+
+            <input type="text" id="userId" placeholder="Enter Your ID" class="input">
+
+            <button id="goSection3" class="btn">
+                NEXT
+            </button>
+        </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section id="section3" class="screen">
+        <div class="container">
+            <h1 class="title">Processing...</h1>
+
+            <div class="loader-box">
+                <div class="loader-bar">
+                    <div id="loaderFill"></div>
+                </div>
+
+                <span id="loaderText">1%</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section id="section4" class="screen">
+        <canvas id="confetti"></canvas>
+
+        <div class="container">
+            <h1 class="success-title">
+                !🎉🥳 Congratulations! <br>
+                <p> You have received this rewards!</p>
+            </h1>
+
+            <h2 id="finalUser"></h2>
+
+            <div id="finalRewards" class="cards-grid"></div>
+
+            <button id="homeBtn" class="btn">
+                Home
+            </button>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

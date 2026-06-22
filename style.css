@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Russo One', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: #050816;
+    color: white;
+}
+
+.bg-animation {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, #00f0ff33, transparent 30%),
+        radial-gradient(circle at 80% 70%, #00ff9933, transparent 30%),
+        radial-gradient(circle at 50% 50%, #0044ff22, transparent 50%);
+    z-index: -1;
+}
+
+.screen {
+    display: none;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.screen.active {
+    display: flex;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.title img{
+width: 100%;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: rgba(255, 255, 255, .06);
+    border: 2px solid #00f0ff;
+    border-radius: 20px;
+    padding: 12px;
+    cursor: pointer;
+    transition: .3s;
+    backdrop-filter: blur(8px);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px #00f0ff;
+}
+
+.card.selected {
+    border-color: #00ff88;
+    box-shadow: 0 0 30px #00ff88;
+}
+
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+}
+
+.reward-img {
+    width: 130px !important;
+    height: 130px !important;
+}
+
+.card h3 {
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.btn {
+    border: none;
+    padding: 14px 40px;
+    border-radius: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #00f0ff, #00ff88);
+    color: black;
+    font-family: 'Russo One', sans-serif;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.input {
+    width: 100%;
+    max-width: 500px;
+    padding: 16px;
+    border-radius: 15px;
+    border: 2px solid #00f0ff;
+    background: #091222;
+    color: white;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.loader-box {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+.loader-bar {
+    height: 25px;
+    background: #091222;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+#loaderFill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00f0ff, #00ff88);
+}
+
+#loaderText {
+    display: block;
+    margin-top: 15px;
+    font-size: 28px;
+}
+
+.success-title {
+    color: #00ff88;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+#finalUser {
+    margin-bottom: 20px;
+}
+
+#confetti {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+@media(max-width:600px) {
+
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+}
