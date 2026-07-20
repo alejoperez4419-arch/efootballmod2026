@@ -1,219 +1,141 @@
-const cardsData = [
-    { id: 1, image: "1.png" },
-    { id: 2, image: "2.png" },
-    { id: 3, image: "3.png" },
-    { id: 4, image: "4.png" },
-    { id: 5, image: "5.png" },
-    { id: 6, image: "6.png" },
+let selectedCards = [];
 
-    {
-        id: 7,
-        image: "coin.png",
-        name: "999,999,999 Coins",
-        reward: true
-    },
+// Ir a sección 2
+function goToCards() {
+    document.getElementById("section1").classList.remove("active");
+    document.getElementById("section2").classList.add("active");
 
-    {
-        id: 8,
-        image: "gp.png",
-        name: "999,999,999 GP",
-        reward: true
+    const cardsContainer = document.getElementById("cardsContainer");
+    cardsContainer.innerHTML = "";
+    selectedCards = [];
+
+    // Cartas normales (1-6)
+    for (let i = 1; i <= 6; i++) {
+        let card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `<img src="${i}.png" alt="card ${i}">`;
+        card.onclick = () => toggleSelect(card, `card${i}`);
+        cardsContainer.appendChild(card);
     }
-];
-const cardsContainer = document.getElementById("cardsContainer");
 
-let selectedRewards = [];
+    // ✨ Últimas 3 cartas: FC Point → Coin → Gem
+    const specialCards = [
+        { img: "coin.png", amount: 100000, label: "Coins" },
+        { img: "gp.png", amount: 100000, label: "GP" },
+/*         { img: "epoints.png", amount: 100000, label: "ePoints" } */
+    ];
 
-/* GENERAR TARJETAS CON FOREACH */
+    specialCards.forEach(item => {
+        let card = document.createElement("div");
+        card.classList.add("card");
 
-cardsData.forEach(card => {
+        card.innerHTML = `
+    <img src="${item.img}" alt="${item.label}">
+    <div style="color: #ffff00;font-size:18px;margin-top:6px;font-weight:bold;">
+      ${item.amount} ${item.label}
+    </div>
+  `;
 
-    const div = document.createElement("div");
+        // Guardamos tipo + imagen
+        card.onclick = () =>
+            toggleSelect(card, `${item.amount} ${item.label}|${item.img}`);
 
-    div.classList.add("card");
-
-    div.innerHTML = `
-  <img
-    src="${card.image}"
-    class="${card.reward ? 'reward-img' : ''}"
-  >
-
-  ${card.name ? `<h3>${card.name}</h3>` : ""}
-`;
-
-    div.addEventListener("click", () => {
-
-        div.classList.toggle("selected");
-
-        if (selectedRewards.includes(card)) {
-            selectedRewards =
-                selectedRewards.filter(item => item.id !== card.id);
-        } else {
-            selectedRewards.push(card);
-        }
-
+        cardsContainer.appendChild(card);
     });
 
-    cardsContainer.appendChild(div);
+}
 
-});
+// Selección múltiple
+function toggleSelect(card, cardName) {
+    if (card.classList.contains("selected")) {
+        card.classList.remove("selected");
+        selectedCards = selectedCards.filter(c => c !== cardName);
+    } else {
+        card.classList.add("selected");
+        selectedCards.push(cardName);
+    }
+}
 
-/* SECTION 1 -> SECTION 2 */
+// Ir a sección 3
+function goToSearching() {
+    if (selectedCards.length === 0) {
+        alert("Please select at least one card.");
+        return;
+    }
 
-document
-    .getElementById("goSection2")
-    .addEventListener("click", () => {
+    document.getElementById("section2").classList.remove("active");
+    document.getElementById("section3").classList.add("active");
 
-        if (selectedRewards.length === 0) {
-            alert("Select at least one reward.");
-            return;
-        }
+    const playerID = document.getElementById("playerID").value;
+    document.getElementById("searchingPlayer").innerText = "ID: " + playerID;
 
-        showSection("section2");
-
-    });
-
-/* SECTION 2 -> SECTION 3 */
-
-document
-    .getElementById("goSection3")
-    .addEventListener("click", () => {
-
-        const user =
-            document.getElementById("userId").value.trim();
-
-        if (user === "") {
-            alert("Enter Your ID");
-            return;
-        }
-
-        showSection("section3");
-
-        startLoading(user);
-
-    });
-
-/* LOADING */
-
-function startLoading(user) {
-
-    const fill =
-        document.getElementById("loaderFill");
-
-    const text =
-        document.getElementById("loaderText");
-
-    let progress = 1;
-
+    let dots = 0;
+    const loadingText = document.getElementById("loadingText");
     const interval = setInterval(() => {
+        dots = (dots + 1) % 4;
+        loadingText.innerText = "Loading" + ".".repeat(dots);
+    }, 400);
 
-        progress++;
+    setTimeout(() => {
+        clearInterval(interval);
+        document.getElementById("section3").classList.remove("active");
+        document.getElementById("section4").classList.add("active");
 
-        fill.style.width = progress + "%";
-        text.textContent = progress + "%";
+        const finalCards = document.getElementById("finalCards");
+        finalCards.innerHTML = "";
 
-        if (progress >= 100) {
+        selectedCards.forEach(c => {
+            let cardDiv = document.createElement("div");
+            cardDiv.classList.add("card", "selected");
 
-            clearInterval(interval);
+            // 🔥 Recompensas especiales: Coins / GP / ePoints
+            if (c.includes("|")) {
 
-            setTimeout(() => {
+                const [amountText, imgName] = c.split("|");
 
-                renderFinal(user);
+                cardDiv.innerHTML = `
+      <img src="${imgName}" alt="reward">
+      <div style="color: #ffff00;font-size:18px;margin-top:6px;font-weight:bold;">
+        ${amountText}
+      </div>
+    `;
 
-            }, 200);
-
-        }
-
-    }, 15);
-
-}
-
-/* FINAL */
-
-function renderFinal(user) {
-
-    showSection("section4");
-
-    document.getElementById("finalUser").innerHTML =
-        `User ID: <span style="color:#00f0ff">${user}</span>`;
-
-    const finalRewards =
-        document.getElementById("finalRewards");
-
-    finalRewards.innerHTML = "";
-
-    selectedRewards.forEach(item => {
-
-        const div = document.createElement("div");
-
-        div.classList.add("card");
-
-        div.innerHTML = `
-  <img
-    src="${item.image}"
-    class="${item.reward ? 'reward-img' : ''}"
-    alt="${item.name || ''}"
-  >
-  ${item.name ? `<h3>${item.name}</h3>` : ""}
-`;
-        finalRewards.appendChild(div);
-
-    });
-
-    startConfetti();
-
-}
-
-/* HOME */
-
-document
-    .getElementById("homeBtn")
-    .addEventListener("click", () => {
-
-        location.reload();
-
-    });
-
-/* CHANGE SECTION */
-
-function showSection(id) {
-
-    document
-        .querySelectorAll(".screen")
-        .forEach(screen =>
-            screen.classList.remove("active")
-        );
-
-    document
-        .getElementById(id)
-        .classList.add("active");
-
-}
-
-/* CONFETTI */
-
-function startConfetti() {
-
-    const duration = 5000;
-
-    const end = Date.now() + duration;
-
-    (function frame() {
-
-        confetti({
-            particleCount: 5,
-            spread: 360,
-            startVelocity: 30,
-            origin: {
-                x: Math.random(),
-                y: Math.random() - 0.2
+            } else {
+                // Cartas normales
+                let num = c.replace("card", "");
+                cardDiv.innerHTML = `<img src="${num}.png" alt="${c}">`;
             }
+
+            finalCards.appendChild(cardDiv);
         });
 
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
-        }
 
-    })();
+        launchConfetti();
+    }, 1500);
+}
 
+// Reinicio
+function restart() {
+    document.getElementById("section4").classList.remove("active");
+    document.getElementById("section1").classList.add("active");
+    document.getElementById("playerID").value = "";
+}
+
+// 🎉 Confetti
+function launchConfetti() {
+    const duration = 2000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+    }, 250);
 }

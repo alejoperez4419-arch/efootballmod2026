@@ -1,170 +1,415 @@
+/* ===========================
+   eFootball Spain 2026 Theme
+   Responsive - style.css
+=========================== */
+
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root{
+    --red:#c8102e;
+    --gold:#f7c600;
+    --dark:#081523;
+    --blue:#0f3b82;
+    --white:#ffffff;
+    --glass:rgba(8,21,35,.72);
+    --border:rgba(255,255,255,.18);
 }
 
-body {
-    font-family: 'Russo One', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    background: #050816;
-    color: white;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.bg-animation {
-    position: fixed;
-    inset: 0;
+html,
+body{
+    width:100%;
+    height:100%;
+    font-family:'Russo One',sans-serif;
+    overflow:hidden;
+    color:#fff;
+}
+
+/* ===========================
+      BACKGROUND
+=========================== */
+
+.background-overlay{
+    position:fixed;
+    inset:0;
     background:
-        radial-gradient(circle at 20% 20%, #00f0ff33, transparent 30%),
-        radial-gradient(circle at 80% 70%, #00ff9933, transparent 30%),
-        radial-gradient(circle at 50% 50%, #0044ff22, transparent 50%);
-    z-index: -1;
+        linear-gradient(rgba(5,12,20,.55),rgba(5,12,20,.75)),
+        url("fondo.png") center center/cover no-repeat;
+    z-index:-2;
 }
 
-.screen {
-    display: none;
-    min-height: 100vh;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+.background-overlay::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    backdrop-filter:blur(3px);
+    background:
+        radial-gradient(circle at top,
+        rgba(247,198,0,.15),
+        transparent 45%);
 }
 
-.screen.active {
-    display: flex;
+/* ===========================
+      CONTAINER
+=========================== */
+
+.container{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
 }
 
-.container {
-    width: 100%;
-    max-width: 1200px;
-    text-align: center;
+/* ===========================
+      SECTIONS
+=========================== */
+
+.section{
+    display:none;
+    width:100%;
+    justify-content:center;
+    align-items:center;
 }
 
-.title img{
-width: 100%;
+.section.active{
+    display:flex;
 }
 
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    margin-bottom: 30px;
+.content-box{
+    width:min(95vw,500px);
+    max-height:92vh;
+    overflow:auto;
+
+    background:var(--glass);
+    border:2px solid rgba(247,198,0,.45);
+
+    backdrop-filter:blur(18px);
+
+    border-radius:26px;
+    padding:28px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+
+    box-shadow:
+        0 0 25px rgba(247,198,0,.20),
+        0 0 70px rgba(200,16,46,.18);
 }
 
-.card {
-    background: rgba(255, 255, 255, .06);
-    border: 2px solid #00f0ff;
-    border-radius: 20px;
-    padding: 12px;
-    cursor: pointer;
-    transition: .3s;
-    backdrop-filter: blur(8px);
+.content-box.big{
+    width:min(95vw,820px);
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 25px #00f0ff;
+/* ===========================
+      TITLES
+=========================== */
+
+h2{
+    font-size:28px;
+    color:var(--gold);
+    text-align:center;
+    text-shadow:0 0 15px rgba(247,198,0,.6);
 }
 
-.card.selected {
-    border-color: #00ff88;
-    box-shadow: 0 0 30px #00ff88;
+p{
+    text-align:center;
+    color:#fff;
+    opacity:.95;
 }
 
-.card img {
-    width: 100%;
-    height: 220px;
-    object-fit: contain;
+/* ===========================
+      LOGOS
+=========================== */
+
+.logo{
+    width:180px;
+    max-width:80%;
+    animation:float 3s ease-in-out infinite;
 }
 
-.reward-img {
-    width: 130px !important;
-    height: 130px !important;
+.titulo{
+    width:300px;
+    max-width:100%;
 }
 
-.card h3 {
-    margin-top: 10px;
-    font-size: 15px;
+/* ===========================
+      INPUT
+=========================== */
+
+input{
+    width:100%;
+    padding:16px;
+
+    border:none;
+    outline:none;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.12);
+    border:2px solid rgba(247,198,0,.3);
+
+    color:#fff;
+    font-size:18px;
+    text-align:center;
+    transition:.25s;
 }
 
-.btn {
-    border: none;
-    padding: 14px 40px;
-    border-radius: 15px;
-    font-size: 18px;
-    cursor: pointer;
-    background: linear-gradient(90deg, #00f0ff, #00ff88);
-    color: black;
-    font-family: 'Russo One', sans-serif;
+input::placeholder{
+    color:#ddd;
 }
 
-.btn:hover {
-    transform: scale(1.05);
+input:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 18px rgba(247,198,0,.4);
 }
 
-.input {
-    width: 100%;
-    max-width: 500px;
-    padding: 16px;
-    border-radius: 15px;
-    border: 2px solid #00f0ff;
-    background: #091222;
-    color: white;
-    margin-bottom: 20px;
-    font-size: 18px;
+/* ===========================
+      BUTTONS
+=========================== */
+
+button{
+    width:100%;
+    padding:16px;
+
+    border:none;
+    border-radius:14px;
+
+    cursor:pointer;
+
+    font-family:inherit;
+    font-size:18px;
+
+    color:#fff;
+
+    background:
+    linear-gradient(90deg,
+    var(--red),
+    var(--gold));
+
+    transition:.25s;
+
+    box-shadow:
+        0 0 15px rgba(247,198,0,.35);
 }
 
-.loader-box {
-    width: 100%;
-    max-width: 500px;
-    margin: auto;
+button:hover{
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:
+        0 0 30px rgba(247,198,0,.55);
 }
 
-.loader-bar {
-    height: 25px;
-    background: #091222;
-    border-radius: 50px;
-    overflow: hidden;
+button:active{
+    transform:scale(.96);
 }
 
-#loaderFill {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #00f0ff, #00ff88);
+/* ===========================
+      CARDS
+=========================== */
+
+.cards-grid{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:18px;
+    margin:8px 0;
 }
 
-#loaderText {
-    display: block;
-    margin-top: 15px;
-    font-size: 28px;
+.card{
+    background:rgba(255,255,255,.08);
+
+    border:2px solid rgba(255,255,255,.15);
+
+    border-radius:20px;
+
+    padding:12px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    transition:.25s;
+
+    cursor:pointer;
 }
 
-.success-title {
-    color: #00ff88;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+.card img{
+    width:100%;
+    max-width:135px;
+    transition:.25s;
 }
 
-#finalUser {
-    margin-bottom: 20px;
+.card:hover{
+    transform:translateY(-6px);
+    border-color:var(--gold);
+
+    box-shadow:
+    0 0 18px rgba(247,198,0,.45);
 }
 
-#confetti {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+.card.selected{
+    border-color:var(--gold);
+
+    background:
+    linear-gradient(
+    rgba(247,198,0,.18),
+    rgba(200,16,46,.18));
+
+    box-shadow:
+    0 0 25px rgba(247,198,0,.5);
+
+    transform:scale(1.05);
 }
 
-@media(max-width:600px) {
+/* ===========================
+      SPINNER
+=========================== */
 
-    .cards-grid {
-        grid-template-columns: repeat(2, 1fr);
+.spinner{
+    width:70px;
+    height:70px;
+
+    border:6px solid rgba(255,255,255,.18);
+    border-top:6px solid var(--gold);
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+}
+
+/* ===========================
+      SCROLL
+=========================== */
+
+.content-box::-webkit-scrollbar{
+    width:8px;
+}
+
+.content-box::-webkit-scrollbar-thumb{
+    background:var(--gold);
+    border-radius:20px;
+}
+
+/* ===========================
+      ANIMATIONS
+=========================== */
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes float{
+
+    0%{
+        transform:translateY(0px);
     }
 
-    .title {
-        font-size: 1.5rem;
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+/* ===========================
+      TABLETS
+=========================== */
+
+@media (max-width:900px){
+
+    .content-box.big{
+        width:100%;
+    }
+
+    .cards-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+/* ===========================
+      MOBILE
+=========================== */
+
+@media (max-width:600px){
+
+    .container{
+        padding:12px;
+    }
+
+    .content-box{
+        padding:18px;
+        gap:14px;
+    }
+
+    h2{
+        font-size:22px;
+    }
+
+    .titulo{
+        width:220px;
+    }
+
+    .logo{
+        width:120px;
+    }
+
+    input,
+    button{
+        font-size:16px;
+        padding:14px;
+    }
+
+    .cards-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+
+    .card img{
+        max-width:100px;
+    }
+
+}
+
+/* ===========================
+      SMALL PHONES
+=========================== */
+
+@media (max-width:390px){
+
+    h2{
+        font-size:18px;
+    }
+
+    .content-box{
+        border-radius:18px;
+        padding:14px;
+    }
+
+    .cards-grid{
+        gap:10px;
+    }
+
+    .card{
+        padding:8px;
+    }
+
+    .card img{
+        max-width:85px;
     }
 
 }
